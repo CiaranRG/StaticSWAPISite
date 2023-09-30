@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Typography, Button } from '@mui/material';
 
 // Defining types in typescript for our planets
 type Planet = {
@@ -13,29 +14,55 @@ type Planet = {
 }
 
 export default function PlanetsPage(){
-    const [planetsDB, setPlanetsDB] = useState([])
+    const [planetsDB, setPlanetsDB] = useState<Planet[]>([])
+    const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
+        let isMounted = true
         const fetchData = async () => {
+            let nextURL = 'https://swapi.dev/api/planets'
+            let allData: Planet[] = []
             try {
-                const response = await fetch('https://swapi.dev/api/planets')
-                const result = await response.json();
-                setPlanetsDB(result.results)
+                while (nextURL && isMounted){
+                    const response = await fetch(nextURL)
+                    const result = await response.json();
+                    // If the response from the server was not between 200-299 this is error is thr
+                    if (!response.ok){
+                        throw new Error('Connection Error!')
+                    }
+                    allData = [...allData, ...result.results]
+                    nextURL = result.next
+                }
+                // The page is breaking out of the while loop for some reason, have a better look at later
+                setPlanetsDB(allData)
+                setIsloading(false)
             }
             catch (error) {
-                navigate('/error')
+                navigate('/error', {state: { error }})
             }
         } 
         fetchData()
+        return () => {
+            isMounted = false
+        }
     }, [navigate])
 
     return(
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh', fontSize: '3rem', flexDirection: 'column', mt: 70}}>
-            {planetsDB.map((planet) => (
-                <>
-                    <h3>{planet.name}</h3>
-                </>
+        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
+            {
+                isLoading ?
+                <Typography component="h1" variant='h1' sx={{ mt: 0, mb: 3 }}>Loading...</Typography>:
+                // Adding an index so it has a numbered key
+                planetsDB.map((planet) => (
+                    <div key={planet.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>
+                    <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
+                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Diameter: {planet.diameter}</Typography>
+                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
+                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
+                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
+                    <Button variant="contained">View More</Button>
+                    </div>
             ))}
         </Box>
     )
