@@ -10,11 +10,18 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 // import AdbIcon from '@mui/icons-material/Adb';
 import { useState, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom'
 
-const pages = ['Characters', 'Vehicles', 'Planets'];
+const pages = [
+  { name: 'Home', path: '/home'},
+  { name: 'Characters', path: '/characters'},
+  { name: 'Vehicles', path: '/vehicles'},
+  { name: 'Planets', path: '/planets'},
+];
 
 export default function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate()
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -24,9 +31,14 @@ export default function Navbar() {
     setAnchorElNav(null);
   };
 
+  const handlePageNavigation = (path: string) => {
+    navigate(path)
+    handleCloseNavMenu()
+  }
+
   return (
     <AppBar position="static" sx={{ background: '#112333' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="sm">
         <Toolbar disableGutters>
         {/* <Box
           component="img"
@@ -45,18 +57,19 @@ export default function Navbar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
+              fontSize: '2rem',
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            SWAPI Project
+            SWAPI
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -89,10 +102,10 @@ export default function Navbar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} 
-                onClick={handleCloseNavMenu}
+                <MenuItem key={page.name} 
+                onClick={() => handlePageNavigation(page.path)}
                 >
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -118,11 +131,14 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                // Setting the key to just be the name currently
+                key={page.name}
+                // Setting up a handle page navigation function that takes in the pages path, it also calls the handleCloseNavMenu.
+                onClick={() => handlePageNavigation(page.path)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                {/* Displaying the name on the navbar */}
+                {page.name}
               </Button>
             ))}
           </Box>
