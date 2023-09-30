@@ -1,15 +1,20 @@
-import './App.css'
+import './App.scss'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CssBaseline from '@mui/material/CssBaseline';
+import Navbar from './Navbar/Navbar'
 
 function App() {
 
   return (
-    <Router>
-    {/* <Navbar/> */}
-      <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
-      </Routes>
-    </Router>
+    <>
+      <CssBaseline/>
+      <Router>
+      <Navbar/>
+        <Routes>
+          {/* <Route path="/" element={<HomePage />} /> */}
+        </Routes>
+      </Router>
+    </>
   )
 }
 
