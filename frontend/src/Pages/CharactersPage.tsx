@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // Defining types in typescript for our characters
 type Character = {
@@ -17,6 +18,7 @@ type Character = {
 
 export default function CharactersPage(){
     const [charactersDB, setCharactersDB] = useState<Character[]>([])
+    const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
     useEffect(() => {
         let isMounted = true
@@ -35,6 +37,7 @@ export default function CharactersPage(){
                     nextURL = result.next
                 }
                 setCharactersDB(allData)
+                setIsloading(false)
             }
             catch (error) {
                 navigate('/error', {state: { error }})
@@ -47,9 +50,12 @@ export default function CharactersPage(){
     }, [navigate])
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
+            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>Characters</Typography>
             {
-                charactersDB.length === 0 ?
-                <Typography component="h1" variant='h1' sx={{ mt: 0, mb: 3 }}>Loading...</Typography>:
+                isLoading ?
+                <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
+                    <CircularProgress size={'4rem'}/>
+                </Box>:
                 charactersDB.map((character) => (
                     <div key={character.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>
                     <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>

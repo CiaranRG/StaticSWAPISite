@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // Defining types in typescript for our planets
 type Planet = {
@@ -50,9 +51,12 @@ export default function PlanetsPage(){
 
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
+            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>Planets</Typography>
             {
                 isLoading ?
-                <Typography component="h1" variant='h1' sx={{ mt: 0, mb: 3 }}>Loading...</Typography>:
+                <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
+                    <CircularProgress size={'4rem'}/>
+                </Box>:
                 // Adding an index so it has a numbered key
                 planetsDB.map((planet) => (
                     <div key={planet.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>

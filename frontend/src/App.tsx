@@ -5,11 +5,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 // Importing Components
 import Navbar from './Navbar/Navbar'
 // Importing Our Pages
-import HomePage from './HomePage/Homepage';
-import CharactersPage from './CharactersPage/CharactersPage';
+import HomePage from './Pages/Homepage';
+import CharactersPage from './Pages/CharactersPage';
 import ErrorPage from './Error Pages/PageNotFound';
-import VehiclesPage from './VehiclesPage/VehiclesPage';
-import PlanetsPage from './PlanetsPage/PlanetsPage';
+import VehiclesPage from './Pages/VehiclesPage';
+import PlanetsPage from './Pages/PlanetsPage';
+import StarshipsPage from './Pages/StarshipsPage';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/characters" element={<CharactersPage />} />
           <Route path="/vehicles" element={<VehiclesPage />} />
           <Route path="/planets" element={<PlanetsPage />} />
+          <Route path="/starships" element={<StarshipsPage />} />
           <Route path="/error" element={<ErrorPage error={{message: 'Page Not Found', code: '404'}}/>} />
           <Route path="*" element={<ErrorPage error={{message: 'Page Not Found', code: '404'}}/>} />
         </Routes>
