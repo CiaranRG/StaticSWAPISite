@@ -18,6 +18,9 @@ export default function PlanetsPage(){
     const [planetsDB, setPlanetsDB] = useState<Planet[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
+    useEffect(()=>{
+        document.title = 'Planets'
+    },[])
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
         let isMounted = true
@@ -50,16 +53,17 @@ export default function PlanetsPage(){
     }, [navigate])
 
     return(
+       // Turn this whole section into a grid layout to better style things
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
-            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>Planets</Typography>
+            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
+            backgroundColor: '#112333'}}>Planets</Typography>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                // Adding an index so it has a numbered key
                 planetsDB.map((planet) => (
-                    <div key={planet.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>
+                    <div key={planet.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', backgroundColor: '#112333'}}>
                     <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Diameter: {planet.diameter}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>

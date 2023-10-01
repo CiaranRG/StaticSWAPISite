@@ -40,7 +40,7 @@ export default function Navbar() {
 
   return (
     <AppBar position="static" sx={{ background: '#112333' }}>
-      <Container maxWidth="sm">
+      <Container maxWidth="xl" sx={{display: 'flex', justifyContent: 'center'}}>
         <Toolbar disableGutters>
         {/* <Box
           component="img"

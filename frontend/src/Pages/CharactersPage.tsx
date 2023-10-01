@@ -20,6 +20,9 @@ export default function CharactersPage(){
     const [charactersDB, setCharactersDB] = useState<Character[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
+    useEffect(()=>{
+        document.title = 'Characters'
+    },[])
     useEffect(() => {
         let isMounted = true
         const fetchData = async () => {
@@ -49,15 +52,18 @@ export default function CharactersPage(){
         }
     }, [navigate])
     return(
-        <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
-            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>Characters</Typography>
+            // Turn this whole section into a grid layout to better style things
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
+            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
+            backgroundColor: '#112333'}}>Characters</Typography>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 charactersDB.map((character) => (
-                    <div key={character.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>
+                    <div key={character.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
+                    backgroundColor: '#112333'}}>
                     <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Hair Color: {character.hair_color}</Typography>

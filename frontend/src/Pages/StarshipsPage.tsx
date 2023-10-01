@@ -26,6 +26,9 @@ export default function VehiclesPage(){
     const [starshipsDB, setStarshipsDB] = useState<Starship[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
+    useEffect(()=>{
+        document.title = 'Starships'
+    },[])
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
         let isMounted = true
@@ -57,7 +60,8 @@ export default function VehiclesPage(){
     }, [navigate])
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
-            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>Starships</Typography>
+            <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
+            backgroundColor: '#112333'}}>Starships</Typography>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
@@ -65,7 +69,8 @@ export default function VehiclesPage(){
                 </Box>:
                 // Adding an index so it has a numbered key
                 starshipsDB.map((starship) => (
-                    <div key={starship.url} style={{textAlign: 'center', border: '4px solid black', marginBottom: '30px', padding: '20px', borderRadius: '10px'}}>
+                    <div key={starship.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundColor: '#112333'}}>
                         <Typography component="h3" variant='h3' sx={{mb: 2}}>{starship.name}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Model: {starship.model}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Manufacturer: {starship.manufacturer}</Typography>
