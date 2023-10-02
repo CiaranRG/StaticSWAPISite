@@ -11,6 +11,7 @@ import ErrorPage from './Error Pages/PageNotFound';
 import VehiclesPage from './Pages/VehiclesPage';
 import PlanetsPage from './Pages/PlanetsPage';
 import StarshipsPage from './Pages/StarshipsPage';
+import ShowPage from './Pages/ShowPage';
 
 function App() {
 
@@ -23,9 +24,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/characters" element={<CharactersPage />} />
+          <Route path="/characters/:characterId" element={<ShowPage />} />
           <Route path="/vehicles" element={<VehiclesPage />} />
+          <Route path="/vehicles/:vehicleId" element={<ShowPage />} />
           <Route path="/planets" element={<PlanetsPage />} />
+          <Route path="/planets/:planetId" element={<ShowPage />} />
           <Route path="/starships" element={<StarshipsPage />} />
+          <Route path="/starships/:starshipId" element={<ShowPage />} />
           <Route path="/error" element={<ErrorPage error={{message: 'Page Not Found', code: '404'}}/>} />
           <Route path="*" element={<ErrorPage error={{message: 'Page Not Found', code: '404'}}/>} />
         </Routes>

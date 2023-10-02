@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useEffect} from 'react'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -34,11 +35,12 @@ export default function HomePage(){
             </Grid>
             <Grid xs={8} columns={16}>
                 <Item>
-                    <Typography component={'h6'} variant='h6' sx={{fontSize: '2rem'}}>Check out one of the sections below!</Typography>
-                    <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '1rem'}}>Characters</Button>
-                    <Button variant="text" href='/vehicles' sx={{color: 'white', fontSize: '1rem'}}>Vehicles</Button>
-                    <Button variant="text" href='starships' sx={{color: 'white', fontSize: '1rem'}}>Starships</Button>
-                    <Button variant="text" href='planets' sx={{color: 'white', fontSize: '1rem'}}>Planets</Button>
+                    {/* Fix the arrow so its more centered */}
+                    <Typography component={'h6'} variant='h6' sx={{fontSize: '2rem'}}>Check out one of the sections below <ArrowDownwardIcon/></Typography>
+                    <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Characters</Button>
+                    <Button variant="text" href='/vehicles' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700', mr: 1, ml: 2}}>Vehicles</Button>
+                    <Button variant="text" href='starships' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700', mr: 2, ml: 1}}>Starships</Button>
+                    <Button variant="text" href='planets' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Planets</Button>
                 </Item>
             </Grid>
             <Grid xs={8} columns={16} sx={{margin: 0}}>

@@ -42,19 +42,6 @@ export default function Navbar() {
     <AppBar position="static" sx={{ background: '#112333' }}>
       <Container maxWidth="xl" sx={{display: 'flex', justifyContent: 'center'}}>
         <Toolbar disableGutters>
-        {/* <Box
-          component="img"
-          sx={{
-            height: 70,
-            width: 70,
-            maxHeight: { xs: 233, md: 167 },
-            maxWidth: { xs: 350, md: 250 },
-            mr: 2,
-          }}
-          alt="The house from the offer."
-          src="https://cdn.freebiesupply.com/logos/large/2x/star-wars-logo-png-transparent.png"
-      /> */}
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap

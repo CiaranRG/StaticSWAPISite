@@ -31,31 +31,36 @@ export default function VehiclesPage(){
     },[])
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
-        let isMounted = true
+        const controller = new AbortController 
+        const signal = controller.signal
         const fetchData = async () => {
-            let nextURL = 'https://swapi.dev/api/starships'
+            let nextURL: string | null =  'https://swapi.dev/api/starships'
             let allData: Starship[] = []
             try {
-                while (nextURL && isMounted){
-                    const response = await fetch(nextURL)
+                while (nextURL){
+                    const response = await fetch(nextURL, { signal })
                     const result = await response.json();
                     // If the response from the server was not between 200-299 this is error is thr
                     if (!response.ok){
                         throw new Error('Connection Error!')
                     }
                     allData = [...allData, ...result.results]
-                    nextURL = result.next
+                    nextURL = result.next ? result.next : null;
                 }
                 setStarshipsDB(allData)
                 setIsloading(false)
             }
             catch (error) {
-                navigate('/error', {state: { error }})
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    navigate('/error', {state: { error }})
+                }
             }
         } 
         fetchData()
         return () => {
-            isMounted = false
+            controller.abort()
         }
     }, [navigate])
     return(

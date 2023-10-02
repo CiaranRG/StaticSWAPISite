@@ -24,31 +24,39 @@ export default function CharactersPage(){
         document.title = 'Characters'
     },[])
     useEffect(() => {
-        let isMounted = true
+        console.log("Effect Running")
+        const controller = new AbortController()
+        const signal = controller.signal
         const fetchData = async () => {
-            let nextURL = 'https://swapi.dev/api/people'
+            // Letting the variable be of type string or null
+            let nextURL: string | null = 'https://swapi.dev/api/people'
             let allData: Character[] = []
             try {
-                while (nextURL && isMounted){
-                    const response = await fetch(nextURL)
+                while (nextURL){
+                    const response = await fetch(nextURL, {signal})
                     const result = await response.json();
                     // If the response from the server was not between 200-299 this is error is thr
                     if (!response.ok){
                         throw new Error('Connection Error!')
                     }
                     allData = [...allData, ...result.results]
-                    nextURL = result.next
+                    nextURL = result.next ? result.next : null;
                 }
-                setCharactersDB(allData)
-                setIsloading(false)
+                    setCharactersDB(allData)
+                    setIsloading(false)
             }
             catch (error) {
-                navigate('/error', {state: { error }})
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    navigate('/error', {state: { error }})
+                }
             }
         } 
         fetchData()
         return () => {
-            isMounted = false
+            controller.abort()
+            console.log("Component Unmounted")
         }
     }, [navigate])
     return(
