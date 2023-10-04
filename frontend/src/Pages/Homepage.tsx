@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#112333',

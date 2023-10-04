@@ -45,8 +45,8 @@ export default function CharactersPage(){
                     setCharactersDB(allData)
                     setIsloading(false)
             }
-            catch (error) {
-                if (error.name === 'AbortError') {
+            catch (error: unknown) {
+                if (error instanceof Error && error.name === 'AbortError') {
                     console.log('Fetch aborted');
                 } else {
                     navigate('/error', {state: { error }})
@@ -69,7 +69,7 @@ export default function CharactersPage(){
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                charactersDB.map((character) => (
+                charactersDB.map((character, index) => (
                     <div key={character.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
                     backgroundColor: '#112333'}}>
                     <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
@@ -78,7 +78,7 @@ export default function CharactersPage(){
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Skin Color: {character.skin_color}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Eye Color: {character.eye_color}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>
-                    <Button variant="contained">View More</Button>
+                    <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
                     </div>
             ))}
         </Box>

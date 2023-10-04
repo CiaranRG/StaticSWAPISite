@@ -1,7 +1,12 @@
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
 
-export default function ErrorPage({error}){
+type ErrorType = {
+    message: string
+    code: string
+}
+
+export default function ErrorPage({error}: { error: ErrorType }){
     const location = useLocation()
     const finalError = error || location.state.error
     return (

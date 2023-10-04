@@ -50,8 +50,8 @@ export default function VehiclesPage(){
                 setStarshipsDB(allData)
                 setIsloading(false)
             }
-            catch (error) {
-                if (error.name === 'AbortError') {
+            catch (error: unknown) {
+                if (error instanceof Error && error.name === 'AbortError') {
                     console.log('Fetch aborted');
                 } else {
                     navigate('/error', {state: { error }})
@@ -73,7 +73,7 @@ export default function VehiclesPage(){
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 // Adding an index so it has a numbered key
-                starshipsDB.map((starship) => (
+                starshipsDB.map((starship, index) => (
                     <div key={starship.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
                         backgroundColor: '#112333'}}>
                         <Typography component="h3" variant='h3' sx={{mb: 2}}>{starship.name}</Typography>
@@ -88,7 +88,7 @@ export default function VehiclesPage(){
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Consumables: {starship.consumables}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Hypderdrive Rating: {starship.hyperdrive_rating}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Starship Class: {starship.starship_class}</Typography>
-                        <Button variant="contained">View More</Button>
+                        <Button variant="contained" href={`/starships/${index + 2}`}>View More</Button>
                     </div>
             ))}
         </Box>

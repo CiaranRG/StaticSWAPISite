@@ -43,8 +43,8 @@ export default function PlanetsPage(){
                 setPlanetsDB(allData)
                 setIsloading(false)
             }
-            catch (error) {
-                if (error.name === 'AbortError') {
+            catch (error: unknown) {
+                if (error instanceof Error && error.name === 'AbortError') {
                     console.log('Fetch aborted');
                 } else {
                     navigate('/error', {state: { error }})
@@ -67,14 +67,14 @@ export default function PlanetsPage(){
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                planetsDB.map((planet) => (
+                planetsDB.map((planet, index) => (
                     <div key={planet.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', backgroundColor: '#112333'}}>
                     <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Diameter: {planet.diameter}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
                     <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
-                    <Button variant="contained">View More</Button>
+                    <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
                     </div>
             ))}
         </Box>

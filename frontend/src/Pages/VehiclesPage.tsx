@@ -50,8 +50,8 @@ export default function VehiclesPage(){
                 setVehiclesDB(allData)
                 setIsloading(false)
             }
-            catch (error) {
-                if (error.name === 'AbortError') {
+            catch (error: unknown) {
+                if (error instanceof Error && error.name === 'AbortError') {
                     console.log('Fetch aborted');
                 } else {
                     navigate('/error', {state: { error }})
@@ -63,6 +63,7 @@ export default function VehiclesPage(){
             controller.abort()
         }
     }, [navigate])
+    // Add search functionality for each page
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
@@ -72,7 +73,7 @@ export default function VehiclesPage(){
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                vehiclesDB.map((vehicle) => (
+                vehiclesDB.map((vehicle, index) => (
                     <div key={vehicle.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
                     backgroundColor: '#112333'}}>
                         <Typography component="h3" variant='h3' sx={{mb: 2}}>{vehicle.name}</Typography>
@@ -82,7 +83,8 @@ export default function VehiclesPage(){
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Length: {vehicle.length}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Crew: {vehicle.crew}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2}}>Passengers: {vehicle.passengers}</Typography>
-                        <Button variant="contained">View More</Button>
+                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Index: {index + 4}</Typography>
+                        <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
                     </div>
             ))}
         </Box>
