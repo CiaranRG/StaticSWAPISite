@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // Defining types in typescript for our vehicles
 type Vehicle = {
@@ -68,25 +69,25 @@ export default function VehiclesPage(){
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundColor: '#112333'}}>Vehicles</Typography>
+            <Grid container spacing={0}>
             {
                 isLoading ?
-                <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
+                <Box sx={{display: 'flex', alignItems: 'center', height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 vehiclesDB.map((vehicle, index) => (
-                    <div key={vehicle.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-                    backgroundColor: '#112333'}}>
-                        <Typography component="h3" variant='h3' sx={{mb: 2}}>{vehicle.name}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Model: {vehicle.model}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Manufacturer: {vehicle.manufacturer}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Cost: {vehicle.cost_in_credits}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Length: {vehicle.length}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Crew: {vehicle.crew}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Passengers: {vehicle.passengers}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Index: {index + 4}</Typography>
-                        <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
-                    </div>
+                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
+                        <Box key={vehicle.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <Typography component="h4" variant='h4' sx={{mb: 2, textTransform: 'capitalize'}}>{vehicle.name}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {vehicle.model}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Manufacturer: {vehicle.manufacturer}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Passengers: {vehicle.passengers}</Typography>
+                            <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
+                        </Box>
+                    </Grid>
             ))}
+            </Grid>
         </Box>
     )
 }

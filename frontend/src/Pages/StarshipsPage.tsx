@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // Defining types in typescript for our starships
 type Starship = {
@@ -67,6 +68,7 @@ export default function VehiclesPage(){
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundColor: '#112333'}}>Starships</Typography>
+            <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
@@ -74,23 +76,19 @@ export default function VehiclesPage(){
                 </Box>:
                 // Adding an index so it has a numbered key
                 starshipsDB.map((starship, index) => (
-                    <div key={starship.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-                        backgroundColor: '#112333'}}>
-                        <Typography component="h3" variant='h3' sx={{mb: 2}}>{starship.name}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Model: {starship.model}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Manufacturer: {starship.manufacturer}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Cost: {starship.cost_in_credits}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Length: {starship.length}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Max Atmosphering Speed: {starship.max_atmosphering_speed}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Crew: {starship.crew}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Passengers: {starship.passengers}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Cargo Capacity: {starship.cargo_capacity}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Consumables: {starship.consumables}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Hypderdrive Rating: {starship.hyperdrive_rating}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2}}>Starship Class: {starship.starship_class}</Typography>
-                        <Button variant="contained" href={`/starships/${index + 2}`}>View More</Button>
-                    </div>
+                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
+                        <Box key={starship.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{starship.name}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {starship.model}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Manufacturer: {starship.manufacturer}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Crew: {starship.crew}</Typography>
+                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Passengers: {starship.passengers}</Typography>
+                            <Button variant="contained" href={`/starships/${index + 2}`}>View More</Button>
+                        </Box>
+                    </Grid>
             ))}
+            </Grid>
         </Box>
     )
 }

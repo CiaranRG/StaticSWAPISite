@@ -8,6 +8,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 type Items = {
     name: string;
     url: string;
+    mass?: string;
+    gender?: string;
     diameter?: string;
     climate?: string;
     terrain?: string;
@@ -30,6 +32,11 @@ type Items = {
     hyperdrive_rating?: string;
     starship_class?: string;
     vehicle_class?: string;
+    MGLT?: string;
+    rotation_period?: string;
+    orbital_period?: string;
+    gravity?: string;
+    surface_water?: string;
 }
 
 export default function ShowPage(){
@@ -80,14 +87,14 @@ export default function ShowPage(){
                     setIsloading(false);
                 }
             } catch (error) {
-                console.log(error);
-                // navigate('/error', { state: { error } });
+                console.log(error)
+                navigate('/error', { state: { error } });
             }
         };
         fetchData();
         // Using the cleanup function from react to send an abort to the signal 
         return () => {
-            controller.abort();
+            // controller.abort();
         };
     }, [navigate, urlPath]); // Dependency array for the useEffect hook
     
@@ -95,55 +102,104 @@ export default function ShowPage(){
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-            backgroundColor: '#112333'}}>{item.name}</Typography>
+            backgroundColor: '#112333'}}>{isLoading ? 'Loading...' : item.name}</Typography>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 (
-                    <div>
-                    {
-                        item?.height ? (
-                        // If item has a 'height' property
-                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white' }}>
-                                Character
-                                </Typography>
-                                <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Back</Button>
-                            </Box>
-                        ) : item?.vehicle_class ? (
-                        // If item has a 'vehicle_class' property
-                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white' }}>
-                                Vehicle
-                                </Typography>
-                                <Button variant="text" href='/vehicles' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Back</Button>
-                            </Box>
-                        ) : item?.starship_class ? (
-                        // If item has a 'starship_class' property
-                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white' }}>
-                                Starship
-                                </Typography>
-                                <Button variant="text" href='/starships' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Back</Button>
-                            </Box>
-                        ) : item?.climate ? (
-                        // If item has a 'climate' property
-                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white' }}>
-                                Planet
-                                </Typography>
-                                <Button variant="text" href='/planets' sx={{color: 'white', fontSize: '1.25rem', fontWeight: '700'}}>Back</Button>
-                            </Box>
-                        ) : (
-                        // Default content if neither property exists
-                        <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white' }}>
-                            Nothing to Display Here!
-                        </Typography>
-                        )
-                    }
-                  </div>
+                <Box>
+                    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                        {item.height && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Height: {item.height}cm</Typography>
+                        }
+                        {item.mass && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Weight: {item.mass}kg</Typography>
+                        }
+                        {item.hair_color && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Hair Color: {item.hair_color}</Typography>
+                        }
+                        {item.skin_color && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Skin Color: {item.skin_color}</Typography>
+                        }
+                        {item.eye_color && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Eye Color: {item.eye_color}</Typography>
+                        }
+                        {item.birth_year && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Birth Year: {item.birth_year}</Typography>   
+                        }
+                        {item.gender && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize' }}>Gender: {item.gender}</Typography>
+                        }
+                        {item.model && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Model: {item.model}</Typography>
+                        }
+                        {item.manufacturer && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Manufacturer: {item.manufacturer}</Typography>
+                        }
+                        {item.cost_in_credits && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Cost In Credits: {item.cost_in_credits}</Typography>
+                        }
+                        {item.length && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Length: {item.length} meters</Typography>
+                        }
+                        {item.max_atmosphering_speed && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Max Atmosphering Speed: {item.max_atmosphering_speed}</Typography>
+                        }
+                        {item.crew && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Crew: {item.crew}</Typography>
+                        }
+                        {item.passengers && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Passengers: {item.passengers}</Typography>
+                        }
+                        {item.cargo_capacity && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Cargo Capacity: {item.cargo_capacity}lbs</Typography>
+                        }
+                        {item.consumables && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Consumables: {item.consumables}</Typography>
+                        }
+                        {item.hyperdrive_rating && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>HyperDrive Rating: {item.hyperdrive_rating}</Typography>
+                        }
+                        {item.MGLT && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>MGLT: {item.MGLT}</Typography>
+                        }
+                        {item.vehicle_class && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Vehicle Class: {item.vehicle_class}</Typography>
+                        }
+                        {item.starship_class && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Starship Class: {item.starship_class}</Typography>
+                        }
+                        {item.rotation_period && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Rotation Period: {item.rotation_period}</Typography>
+                        }
+                        {item.orbital_period && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Orbital Period: {item.orbital_period}</Typography>
+                        }
+                        {item.diameter && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Diameter: {item.diameter}</Typography>
+                        }
+                        {item.climate && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Climate: {item.climate}</Typography>
+                        }
+                        {item.gravity && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Gravity: {item.gravity}</Typography>
+                        }
+                        {item.terrain && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Terrain: {item.terrain}</Typography>
+                        }
+                        {item.surface_water && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Surface Water: {item.surface_water}</Typography>
+                        }
+                        {item.population && 
+                            <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Population: {item.population}</Typography>
+                        }
+
+                        <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '2rem', fontWeight: '700'}}>Back</Button>
+                    </Box>
+                    {/* <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '2rem', fontWeight: '700', marginLeft: '150px'}}>Back</Button> */}
+                </Box>
                 )
             }
         </Box>

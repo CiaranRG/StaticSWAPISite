@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // Defining types in typescript for our characters
 type Character = {
@@ -64,23 +65,24 @@ export default function CharactersPage(){
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundColor: '#112333'}}>Characters</Typography>
+            <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 charactersDB.map((character, index) => (
-                    <div key={character.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-                    backgroundColor: '#112333'}}>
-                    <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Hair Color: {character.hair_color}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Skin Color: {character.skin_color}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Eye Color: {character.eye_color}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>
-                    <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
-                    </div>
+                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
+                        <Box key={character.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
+                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
+                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>
+                        <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
+                        </Box>
+                    </Grid>
             ))}
+            </Grid>
         </Box>
     )
 }

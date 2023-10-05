@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // Defining types in typescript for our planets
 type Planet = {
@@ -62,21 +63,25 @@ export default function PlanetsPage(){
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundColor: '#112333'}}>Planets</Typography>
+            <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 planetsDB.map((planet, index) => (
-                    <div key={planet.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', backgroundColor: '#112333'}}>
-                    <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Diameter: {planet.diameter}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
-                    <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
-                    <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
-                    </div>
+                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
+                        <Box key={planet.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
+                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
+                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
+                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
+                        <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
+                        </Box>
+                    </Grid>
             ))}
+            </Grid>
         </Box>
     )
 }
