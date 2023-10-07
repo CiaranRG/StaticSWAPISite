@@ -88,7 +88,7 @@ export default function ShowPage(){
                 }
             } catch (error) {
                 console.log(error)
-                navigate('/error', { state: { error } });
+                // navigate('/error', { state: { error } });
             }
         };
         fetchData();
@@ -105,12 +105,13 @@ export default function ShowPage(){
             backgroundColor: '#112333'}}>{isLoading ? 'Loading...' : item.name}</Typography>
             {
                 isLoading ?
-                <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
+                <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10',}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 (
                 <Box>
-                    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+                    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', 
+                    borderRadius: '10px', color: 'white', backgroundColor: '#112333'}}>
                         {item.height && 
                             <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Height: {item.height}cm</Typography>
                         }
@@ -195,10 +196,8 @@ export default function ShowPage(){
                         {item.population && 
                             <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Population: {item.population}</Typography>
                         }
-
                         <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '2rem', fontWeight: '700'}}>Back</Button>
                     </Box>
-                    {/* <Button variant="text" href='/characters' sx={{color: 'white', fontSize: '2rem', fontWeight: '700', marginLeft: '150px'}}>Back</Button> */}
                 </Box>
                 )
             }

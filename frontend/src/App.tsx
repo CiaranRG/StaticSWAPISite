@@ -12,12 +12,18 @@ import VehiclesPage from './Pages/VehiclesPage';
 import PlanetsPage from './Pages/PlanetsPage';
 import StarshipsPage from './Pages/StarshipsPage';
 import ShowPage from './Pages/ShowPage';
+import { GlobalStyles } from '@mui/material';
 
 function App() {
 
   return (
     <>
       <CssBaseline/>
+      <GlobalStyles
+        styles={{
+          body: { backgroundColor: "black" }
+        }}
+      />
       <Router>
       <Navbar/>
         <Routes>

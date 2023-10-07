@@ -40,9 +40,9 @@ export default function Navbar() {
 
   return (
     <AppBar position="static" sx={{ background: '#112333' }}>
-      <Container maxWidth="xl" sx={{display: 'flex', justifyContent: 'center'}}>
+      <Container maxWidth="md" sx={{display: 'flex', justifyContent: 'center'}}>
         <Toolbar disableGutters>
-          <Typography
+          {/* <Typography
             variant="h6"
             noWrap
             component="a"
@@ -59,9 +59,9 @@ export default function Navbar() {
             }}
           >
             SWAPI
-          </Typography>
+          </Typography> */}
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -110,21 +110,22 @@ export default function Navbar() {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
+              fontSize: {sm: '2rem'}
             }}
           >
             SWAPI Project
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
             {pages.map((page) => (
               <Button
                 // Setting the key to just be the name currently
                 key={page.name}
                 // Setting up a handle page navigation function that takes in the pages path, it also calls the handleCloseNavMenu.
                 onClick={() => handlePageNavigation(page.path)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', letterSpacing: '0px', fontWeight: '700', fontSize: {md: '1.1rem', lg: '1.1rem', xl: '1.1rem' }}}
               >
                 {/* Displaying the name on the navbar */}
                 {page.name}
