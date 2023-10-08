@@ -64,7 +64,10 @@ export default function CharactersPage(){
             // Turn this whole section into a grid layout to better style things
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-            backgroundColor: '#112333'}}>Characters</Typography>
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover',
+            fontSize: {xs: '2.3rem', sm: '4rem', md: '5rem', lg: '6rem'},
+            }}>CHARACTERS</Typography>
             <Grid container spacing={0}>
             {
                 isLoading ?
@@ -72,9 +75,12 @@ export default function CharactersPage(){
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 charactersDB.map((character, index) => (
-                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Box key={character.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
-                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
+                        <Box key={character.url} 
+                        sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+                        backgroundSize: 'cover',
+                        width: {xs: '290px', sm: '450px', md: '370px', lg: '340px',xl: '360px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                         <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>

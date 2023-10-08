@@ -3,11 +3,13 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#112333',
+    // backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+    // backgroundSize: 'cover', backgroundPosition: 'center',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -26,8 +28,8 @@ export default function HomePage(){
             </Grid>
             <Grid xs={10} columns={16}>
                 <Item>
-                <Typography component={'h1'} variant='h1' sx={{fontSize: { xs: '2rem', sm:'3.5rem', md: '5rem', lg: '6rem', xl: '9rem'}}}>
-                    SWAPI PROJECT</Typography>
+                <Typography component={'h1'} variant='h1' sx={{fontSize: { xs: '2.5rem', sm:'4rem', md: '8rem', lg: '6rem', xl: '7rem'}}}>
+                    SWAPI DATABASE</Typography>
                 </Item>
             </Grid>
             <Grid xs={10} columns={16} sx={{margin: 0}}>
@@ -36,19 +38,24 @@ export default function HomePage(){
             </Grid>
             <Grid xs={10} columns={16}>
                 <Item sx={{display: {xs: 'flex', md: 'block'}, flexDirection: 'column', justifyContent: 'center', textAlign: 'center'}}>
-                    {/* Fix the arrow so its more centered */}
-                    <Typography component={'h6'} variant='h6' sx={{fontSize: { xs: '1.3rem', sm: '1.6rem', md: '1.5rem', lg: '2rem', xl: '2rem'}}}>
-                        Check out one of the sections below <ArrowDownwardIcon/></Typography>
-                    <Button variant="text" href='/characters' sx={{color: 'white', fontSize: { xs: '1rem', sm: '1.8rem', md: '1.5rem', lg: '2rem', xl: '2rem'}}}>
-                        Characters</Button>
-                    <Button variant="text" href='/vehicles' sx={{color: 'white', fontSize: { xs: '1rem', sm: '1.8rem', md: '1.5rem', lg: '2rem', xl: '2rem'}, mr: {md: 2, sm: 0}, 
-                        ml: {md: 2, sm: 0}}}>
-                        Vehicles</Button>
-                    <Button variant="text" href='starships' sx={{color: 'white', fontSize: { xs: '1rem', sm: '1.8rem', md: '1.5rem', lg: '2rem', xl: '2rem'}, 
-                        mr: {md: 2, sm: 0}, ml: {md: 1, sm: 0}}}>
-                        Starships</Button>
-                    <Button variant="text" href='planets' sx={{color: 'white', fontSize: { xs: '1rem', sm: '1.8rem', md: '1.5rem', lg: '2rem', xl: '2rem'}}}>
-                        Planets</Button>
+                    <Link to="/characters" style={{ textDecoration: 'none' }}>
+                        <Button variant="text" href='/characters' sx={{color: 'white', fontSize: { xs: '1.8rem', sm: '2rem', md: '3rem', lg: '2rem', xl: '2rem'}}}>
+                            Characters</Button>
+                    </Link>
+                    <Link to="/vehicles" style={{ textDecoration: 'none' }}>
+                        <Button variant="text" href='/vehicles' sx={{color: 'white', fontSize: { xs: '1.8rem', sm: '2rem', md: '3rem', lg: '2rem', xl: '2rem'}, mr: {md: 2, sm: 0}, 
+                            ml: {md: 2, sm: 0}}}>
+                            Vehicles</Button>
+                    </Link>
+                    <Link to="/starships" style={{ textDecoration: 'none' }}>
+                        <Button variant="text" href='starships' sx={{color: 'white', fontSize: { xs: '1.8rem', sm: '2rem', md: '3rem', lg: '2rem', xl: '2rem'}, 
+                            mr: {md: 2, sm: 0}, ml: {md: 1, sm: 0}}}>
+                            Starships</Button>
+                    </Link>
+                    <Link to="/planets" style={{ textDecoration: 'none' }}>
+                        <Button variant="text" href='planets' sx={{color: 'white', fontSize: { xs: '1.8rem', sm: '2rem', md: '3rem', lg: '2rem', xl: '2rem'}}}>
+                            Planets</Button>
+                    </Link>
                 </Item>
             </Grid>
             <Grid xs={10} columns={16} sx={{margin: 0}}>

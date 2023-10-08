@@ -68,7 +68,10 @@ export default function VehiclesPage(){
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-            backgroundColor: '#112333'}}>Vehicles</Typography>
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover',
+            fontSize: {xs: '3rem', sm: '4rem', md: '5rem', lg: '6rem'},
+            }}>VEHICLES</Typography>
             <Grid container spacing={0}>
             {
                 isLoading ?
@@ -76,9 +79,12 @@ export default function VehiclesPage(){
                     <CircularProgress size={'4rem'}/>
                 </Box>:
                 vehiclesDB.map((vehicle, index) => (
-                    <Grid md={4} sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Box key={vehicle.url} style={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
-                        backgroundColor: '#112333', maxWidth: '400px', minWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                    <Grid xs={12} sm={6} md={4} lg={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
+                        <Box key={vehicle.url} 
+                        sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
+                        backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+                        backgroundSize: 'cover',
+                        width: {xs: '290px', lg: '290px',xl: '360px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                             <Typography component="h4" variant='h4' sx={{mb: 2, textTransform: 'capitalize'}}>{vehicle.name}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {vehicle.model}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Manufacturer: {vehicle.manufacturer}</Typography>

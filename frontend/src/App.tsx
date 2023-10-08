@@ -21,7 +21,11 @@ function App() {
       <CssBaseline/>
       <GlobalStyles
         styles={{
-          body: { backgroundColor: "black" }
+          body: { 
+            // backgroundImage: "url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2093&q=80')",
+            // background: 'linear-gradient(to right, #9B9B9B, #9B9B9B)'
+            background: '#121212'
+          }
         }}
       />
       <Router>

@@ -60,41 +60,40 @@ export default function ShowPage(){
         urlPath = `https://swapi.dev/api/starships/${starshipId}`
     }
     // Used to change the title to either be loading or the name of the item
-    // useEffect(() => {
-    //     if (isLoading) {
-    //         document.title = 'Loading...';
-    //     } else {
-    //         document.title = item.name;
-    //     }
-    // }, [isLoading, item.name]);
+    useEffect(() => {
+        if (isLoading) {
+            document.title = 'Loading...';
+        } else {
+            document.title = item.name;
+        }
+    }, [isLoading, item.name]);
     useEffect(() => {
         // Creating an abortController to pass to the fetch call 
         const controller = new AbortController();
         const signal = controller.signal;
         const fetchData = async () => {
-            console.log("Inside FetchData Function")
-            console.log(urlPath)
             try {
                 const response = await fetch(urlPath, { signal });
                 const result = await response.json();
-                console.log(result)
                 // If the response from the server was not between 200-299 this is error is thrown
                 if (!response.ok) {
                     throw new Error('Connection Error!');
                 } else {
                     setItem(result);
-                    console.log(item)
                     setIsloading(false);
                 }
             } catch (error) {
-                console.log(error)
-                // navigate('/error', { state: { error } });
+                if (error instanceof Error && error.name === 'AbortError') {
+                    console.log('Fetch Aborted');
+                } else {
+                    navigate('/error', {state: { error }})
+                }
             }
         };
         fetchData();
         // Using the cleanup function from react to send an abort to the signal 
         return () => {
-            // controller.abort();
+            controller.abort();
         };
     }, [navigate, urlPath]); // Dependency array for the useEffect hook
     
@@ -102,7 +101,9 @@ export default function ShowPage(){
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-            backgroundColor: '#112333'}}>{isLoading ? 'Loading...' : item.name}</Typography>
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover',
+            }}>{isLoading ? 'Loading...' : item.name}</Typography>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10',}}>
@@ -111,7 +112,10 @@ export default function ShowPage(){
                 (
                 <Box>
                     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', 
-                    borderRadius: '10px', color: 'white', backgroundColor: '#112333'}}>
+                    borderRadius: '10px', color: 'white', 
+                    backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+                    backgroundSize: 'cover',
+                    }}>
                         {item.height && 
                             <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize'}}>Height: {item.height}cm</Typography>
                         }
