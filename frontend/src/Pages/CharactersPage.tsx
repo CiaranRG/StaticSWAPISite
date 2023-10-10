@@ -20,6 +20,7 @@ type Character = {
 
 export default function CharactersPage(){
     const [charactersDB, setCharactersDB] = useState<Character[]>([])
+    const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
     useEffect(()=>{
@@ -45,6 +46,8 @@ export default function CharactersPage(){
                     nextURL = result.next ? result.next : null;
                 }
                     setCharactersDB(allData)
+                    setFilteredCharacters(allData)
+                    console.log(filteredCharacters)
                     setIsloading(false)
             }
             catch (error: unknown) {

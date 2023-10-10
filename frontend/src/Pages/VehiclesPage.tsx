@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Link } from 'react-router-dom';
+import { TextField } from '@mui/material';
 
 // Defining types in typescript for our vehicles
 type Vehicle = {
@@ -25,12 +26,17 @@ type Vehicle = {
 
 export default function VehiclesPage(){
     const [vehiclesDB, setVehiclesDB] = useState<Vehicle[]>([])
+    const [filteredVehicles, setFilteredVehicles] = useState<Vehicle[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
+    const [searchTerm, setSearchTerm] = useState('')
     // const [starshipsDB, setStarshipsDB] = useState<Starship[]>([])
     const navigate = useNavigate()
     useEffect(()=>{
         document.title = 'Vehicles'
     },[])
+    const handleSearch = ((evt: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(evt.target.value)
+    })
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
         const controller = new AbortController 
@@ -50,6 +56,7 @@ export default function VehiclesPage(){
                     nextURL = result.next ? result.next : null;
                 }
                 setVehiclesDB(allData)
+                setFilteredVehicles(allData)
                 setIsloading(false)
             }
             catch (error: unknown) {
@@ -66,7 +73,18 @@ export default function VehiclesPage(){
             controller.abort()
         }
     }, [navigate])
-    // Add search functionality for each page
+
+        useEffect(() => {
+            if (searchTerm === '') {
+                setFilteredVehicles(vehiclesDB);
+            } else {
+                const newFilteredArr = vehiclesDB.filter(vehicle =>
+                    vehicle.name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setFilteredVehicles(newFilteredArr);
+            }
+        }, [searchTerm, vehiclesDB]);
+
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
@@ -74,23 +92,50 @@ export default function VehiclesPage(){
             backgroundSize: 'cover',
             fontSize: {xs: '3rem', sm: '4rem', md: '5rem', lg: '6rem'},
             }}>VEHICLES</Typography>
+            <TextField id="filled-basic" label="Search Here!" variant="filled" value={searchTerm} onChange={handleSearch}
+            sx={{width: {xs: '200px', sm: '340px', md: '340px', lg:  '340px', xl: '340px'}, border: '2px solid white', borderRadius: '10px',
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: {xs: '10px', sm: '0px'},
+            '& label': {
+                color: 'white', fontSize: {xs: '1rem', sm: '1.2rem'}
+            },
+            '& label.Mui-focused': {
+                color: 'white',
+            },
+            '& .MuiInputBase-input': {
+                color: 'white',
+            },
+            '& .MuiFilledInput-underline:after': {
+                borderBottom: 'none', // removes underline on focus
+            },
+            '& .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline
+            },
+            '&:hover .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline on hover
+            },
+            }}
+            />
             <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center', height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                vehiclesDB.map((vehicle, index) => (
-                    <Grid xs={12} sm={6} md={4} lg={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
-                        <Box key={vehicle.url} 
+                filteredVehicles.map((vehicle, index) => (
+                    <Grid key={vehicle.url} xs={12} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}} }>
+                        <Box 
                         sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
                         backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
-                        backgroundSize: 'cover',
-                        width: {xs: '290px', lg: '290px',xl: '360px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                            <Typography component="h4" variant='h4' sx={{mb: 2, textTransform: 'capitalize'}}>{vehicle.name}</Typography>
-                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {vehicle.model}</Typography>
-                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Manufacturer: {vehicle.manufacturer}</Typography>
-                            <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Passengers: {vehicle.passengers}</Typography>
+                        backgroundSize: 'cover', fontWeight: '700',
+                        width: {xs: '270px', sm:'500px', md: '600px', lg: '700px',xl: '800px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <Typography component="h2" variant='h2' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '2rem', xl: '3rem'}, fontWeight: '700'}}>{vehicle.name}</Typography>
+                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Model: {vehicle.model}</Typography>
+                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Manufacturer: {vehicle.manufacturer}</Typography>
+                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Crew: {vehicle.crew}</Typography>
+                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Passengers: {vehicle.passengers}</Typography>
+                            {/* THIS IS TEMPORARY I NEED TO PASS THIS THROUGH TO THE SHOW PAGE */}
+                            {/* <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize'}}>URL: {vehicle.url}</Typography> */}
                             <Link to={`/vehicles/${index + 4}`} style={{ textDecoration: 'none' }}>
                                 <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
                             </Link>
