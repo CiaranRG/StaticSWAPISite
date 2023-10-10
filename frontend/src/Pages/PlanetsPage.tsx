@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our planets
 type Planet = {
@@ -83,7 +84,9 @@ export default function PlanetsPage(){
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
-                        <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
+                        <Link to={`/planets/${index + 1}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
+                        </Link>
                         </Box>
                     </Grid>
             ))}

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Link } from 'react-router-dom';
 
 
 type Items = {
@@ -46,18 +47,21 @@ export default function ShowPage(){
     const { vehicleId, characterId, starshipId, planetId } = useParams()
     const navigate = useNavigate()
     const location = useLocation()
+    let backButton = ''
     // Setting a url variable and then changing it based on what page we are trying to show
     let urlPath: string = ''
     if (location.pathname.includes('vehicles')) {
-        console.log("Vehicles")
         urlPath = `https://swapi.dev/api/vehicles/${vehicleId}`
-        console.log(urlPath)
+        backButton = 'vehicles'
     } else if (location.pathname.includes('character')) {
         urlPath = `https://swapi.dev/api/people/${characterId}`
+        backButton = 'characters'
     } else if (location.pathname.includes('planets')) {
         urlPath = `https://swapi.dev/api/planets/${planetId}`
+        backButton = 'planets'
     } else if (location.pathname.includes('starships')) {
         urlPath = `https://swapi.dev/api/starships/${starshipId}`
+        backButton = 'starships'
     }
     // Used to change the title to either be loading or the name of the item
     useEffect(() => {
@@ -202,7 +206,9 @@ export default function ShowPage(){
                         {item.population && 
                             <Typography component="h3" variant="h3" sx={{ mb: 2, color: 'white', textTransform: 'capitalize', fontSize: {xs: '1rem', sm: '1.5rem', md: '2rem', lg: '2.5rem', xl: '3rem'}}}>Population: {item.population}</Typography>
                         }
-                        <Button variant="text" href='/characters' sx={{color: 'white', fontSize: {xs: '1rem', sm: '1.5rem', md: '2rem', lg: '2.5rem', xl: '3rem'}, fontWeight: '700'}}>Back</Button>
+                        <Link to={`/${backButton}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="text" href={`/${backButton}`} sx={{color: 'white', fontSize: {xs: '1rem', sm: '1.5rem', md: '2rem', lg: '2.5rem', xl: '3rem'}, fontWeight: '700'}}>Back</Button>
+                        </Link>
                     </Box>
                 </Box>
                 )

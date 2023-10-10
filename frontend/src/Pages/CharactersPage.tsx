@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our characters
 type Character = {
@@ -76,7 +77,7 @@ export default function CharactersPage(){
                 </Box>:
                 charactersDB.map((character, index) => (
                     <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
-                        <Box key={character.url} 
+                        <Box key={index} 
                         sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
                         backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
                         backgroundSize: 'cover',
@@ -84,7 +85,9 @@ export default function CharactersPage(){
                         <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
                         <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>
-                        <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
+                        <Link to={`/characters/${index + 1}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
+                        </Link>
                         </Box>
                     </Grid>
             ))}

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our starships
 type Starship = {
@@ -89,7 +90,9 @@ export default function VehiclesPage(){
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {starship.model}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Crew: {starship.crew}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Passengers: {starship.passengers}</Typography>
-                            <Button variant="contained" href={`/starships/${index + 2}`}>View More</Button>
+                            <Link to={`/starships/${index + 9}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" href={`/starships/${index + 9}`}>View More</Button>
+                        </Link>
                         </Box>
                     </Grid>
             ))}

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our vehicles
 type Vehicle = {
@@ -52,6 +53,7 @@ export default function VehiclesPage(){
                 setIsloading(false)
             }
             catch (error: unknown) {
+                console.log
                 if (error instanceof Error && error.name === 'AbortError') {
                     console.log('Fetch aborted');
                 } else {
@@ -89,7 +91,9 @@ export default function VehiclesPage(){
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Model: {vehicle.model}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Manufacturer: {vehicle.manufacturer}</Typography>
                             <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Passengers: {vehicle.passengers}</Typography>
-                            <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
+                            <Link to={`/vehicles/${index + 4}`} style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
+                            </Link>
                         </Box>
                     </Grid>
             ))}
