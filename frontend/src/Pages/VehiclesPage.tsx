@@ -22,6 +22,7 @@ type Vehicle = {
     consumables: string;
     vehicle_class: string;
     url: string;
+    id: string
 }
 
 export default function VehiclesPage(){
@@ -41,6 +42,11 @@ export default function VehiclesPage(){
     useEffect(() => {
         const controller = new AbortController 
         const signal = controller.signal
+        function extractIdFromUrl(url: string): string {
+            const splitUrl = url.split('/');
+            // Assuming the ID is always the second to last element in the array
+            return splitUrl[splitUrl.length - 2];
+        }
         const fetchData = async () => {
             let nextURL: string | null =  'https://swapi.dev/api/vehicles'
             let allData: Vehicle[] = []
@@ -52,7 +58,10 @@ export default function VehiclesPage(){
                     if (!response.ok){
                         throw new Error('Connection Error!')
                     }
-                    allData = [...allData, ...result.results]
+                    allData = [...allData, ...result.results.map((vehicle: Vehicle) => ({
+                        ...vehicle,
+                        id: extractIdFromUrl(vehicle.url)
+                    }))]
                     nextURL = result.next ? result.next : null;
                 }
                 setVehiclesDB(allData)
@@ -122,7 +131,7 @@ export default function VehiclesPage(){
                 <Box sx={{display: 'flex', alignItems: 'center', height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                filteredVehicles.map((vehicle, index) => (
+                filteredVehicles.map((vehicle) => (
                     <Grid key={vehicle.url} xs={12} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}} }>
                         <Box 
                         sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
@@ -135,9 +144,11 @@ export default function VehiclesPage(){
                             <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Crew: {vehicle.crew}</Typography>
                             <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Passengers: {vehicle.passengers}</Typography>
                             {/* THIS IS TEMPORARY I NEED TO PASS THIS THROUGH TO THE SHOW PAGE */}
-                            {/* <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize'}}>URL: {vehicle.url}</Typography> */}
-                            <Link to={`/vehicles/${index + 4}`} style={{ textDecoration: 'none' }}>
-                                <Button variant="contained" href={`/vehicles/${index + 4}`}>View More</Button>
+                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize'}}>ID: {vehicle.id}</Typography>
+                            <Link   
+                            to={`/vehicles/${vehicle.id}`} 
+                            style={{ textDecoration: 'none' }}>
+                                <Button variant="contained" href={`/vehicles/${vehicle.id}`}>View More</Button>
                             </Link>
                         </Box>
                     </Grid>
