@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our characters
@@ -16,20 +17,30 @@ type Character = {
     birth_year: string;
     homeworld: string;
     url: string;
+    id: string;
 }
 
 export default function CharactersPage(){
     const [charactersDB, setCharactersDB] = useState<Character[]>([])
     const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([])
+    const [searchTerm, setSearchTerm] = useState('')
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
     useEffect(()=>{
         document.title = 'Characters'
     },[])
+    const handleSearch = ((evt: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(evt.target.value)
+    })
     useEffect(() => {
         console.log("Effect Running")
         const controller = new AbortController()
         const signal = controller.signal
+        function extractIdFromUrl(url: string): string {
+            const splitUrl = url.split('/');
+            // Assuming the ID is always the second to last element in the array
+            return splitUrl[splitUrl.length - 2];
+        }
         const fetchData = async () => {
             // Letting the variable be of type string or null
             let nextURL: string | null = 'https://swapi.dev/api/people'
@@ -42,7 +53,10 @@ export default function CharactersPage(){
                     if (!response.ok){
                         throw new Error('Connection Error!')
                     }
-                    allData = [...allData, ...result.results]
+                    allData = [...allData, ...result.results.map((character: Character) => ({
+                        ...character,
+                        id: extractIdFromUrl(character.url)
+                    }))]
                     nextURL = result.next ? result.next : null;
                 }
                     setCharactersDB(allData)
@@ -64,32 +78,68 @@ export default function CharactersPage(){
             console.log("Component Unmounted")
         }
     }, [navigate])
+
+    useEffect(() => {
+        if (searchTerm === '') {
+            setFilteredCharacters(charactersDB);
+        } else {
+            const newFilteredArr = charactersDB.filter(vehicle =>
+                vehicle.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredCharacters(newFilteredArr);
+        }
+    }, [searchTerm, charactersDB]);
     return(
             // Turn this whole section into a grid layout to better style things
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
             backgroundSize: 'cover',
-            fontSize: {xs: '2.3rem', sm: '4rem', md: '5rem', lg: '6rem'},
+            fontSize: {xs: '2.1rem', sm: '5rem', md: '6rem'},
             }}>CHARACTERS</Typography>
+            <TextField id="filled-basic" label="Search Here!" variant="filled" value={searchTerm} onChange={handleSearch}
+            sx={{width: {xs: '200px', sm: '340px'}, border: '2px solid white', borderRadius: '10px',
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: {xs: '10px', sm: '0px'},
+            '& label': {
+                color: 'white', fontSize: {xs: '1rem', sm: '1.2rem'}
+            },
+            '& label.Mui-focused': {
+                color: 'white',
+            },
+            '& .MuiInputBase-input': {
+                color: 'white',
+            },
+            '& .MuiFilledInput-underline:after': {
+                borderBottom: 'none', // removes underline on focus
+            },
+            '& .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline
+            },
+            '&:hover .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline on hover
+            },
+            }}
+            />
             <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                charactersDB.map((character, index) => (
-                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
-                        <Box key={index} 
+                filteredCharacters.map((character) => (
+                    <Grid key={character.url} xs={12} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
+                        <Box  
                         sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
                         backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
-                        backgroundSize: 'cover',
-                        width: {xs: '290px', sm: '450px', md: '370px', lg: '340px',xl: '360px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                        <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{character.name}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Height: {character.height}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Birth Year: {character.birth_year}</Typography>
-                        <Link to={`/characters/${index + 1}`} style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" href={`/characters/${index + 1}`}>View More</Button>
+                        backgroundSize: 'cover', fontWeight: '700',
+                        width: {xs: '270px', sm:'500px', md: '600px', lg: '700px',xl: '800px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Typography component="h2" variant='h2' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '2rem', xl: '3rem'}, fontWeight: '700'}}>{character.name}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Height: {character.height}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Birth Year: {character.birth_year}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Skin Color: {character.skin_color}</Typography>
+                        <Link to={`/characters/${character.id}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" href={`/characters/${character.id}`}>View More</Button>
                         </Link>
                         </Box>
                     </Grid>

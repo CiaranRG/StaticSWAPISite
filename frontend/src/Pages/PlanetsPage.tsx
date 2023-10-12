@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2';
+import { TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 // Defining types in typescript for our planets
@@ -14,19 +15,30 @@ type Planet = {
     terrain: string;
     population: string;
     url: string;
+    id: string;
 }
 
 export default function PlanetsPage(){
     const [planetsDB, setPlanetsDB] = useState<Planet[]>([])
     const [isLoading, setIsloading] = useState<boolean>(true)
+    const [filteredPlanets, setFilteredPlanets] = useState<Planet[]>([])
+    const [searchTerm, setSearchTerm] = useState('')
     const navigate = useNavigate()
     useEffect(()=>{
         document.title = 'Planets'
     },[])
+    const handleSearch = ((evt: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(evt.target.value)
+    })
     // Create a while loop that constantly runs through getting the data until the next field of the returned data is null or some falsy value
     useEffect(() => {
         const controller = new AbortController
         const signal = controller.signal
+        function extractIdFromUrl(url: string): string {
+            const splitUrl = url.split('/');
+            // Assuming the ID is always the second to last element in the array
+            return splitUrl[splitUrl.length - 2];
+        }
         const fetchData = async () => {
             let nextURL: string | null =  'https://swapi.dev/api/planets'
             let allData: Planet[] = []
@@ -38,11 +50,15 @@ export default function PlanetsPage(){
                     if (!response.ok){
                         throw new Error('Connection Error!')
                     }
-                    allData = [...allData, ...result.results]
+                    allData = [...allData, ...result.results.map((planet: Planet) => ({
+                        ...planet,
+                        id: extractIdFromUrl(planet.url)
+                    }))]
                     nextURL = result.next ? result.next : null;
                 }
                 // The page is breaking out of the while loop for some reason, have a better look at later
                 setPlanetsDB(allData)
+                setFilteredPlanets(allData)
                 setIsloading(false)
             }
             catch (error: unknown) {
@@ -59,33 +75,68 @@ export default function PlanetsPage(){
         }
     }, [navigate])
 
+    useEffect(() => {
+        if (searchTerm === '') {
+            setFilteredPlanets(planetsDB);
+        } else {
+            const newFilteredArr = planetsDB.filter(vehicle =>
+                vehicle.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredPlanets(newFilteredArr);
+        }
+    }, [searchTerm, planetsDB]);
+
     return(
        // Turn this whole section into a grid layout to better style things
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
             backgroundSize: 'cover',
-            fontSize: {xs: '2.3rem', sm: '4rem', md: '5rem', lg: '6rem'},
+            fontSize: {xs: '3rem', sm: '5rem', md: '6rem'},
             }}>PLANETS</Typography>
+                        <TextField id="filled-basic" label="Search Here!" variant="filled" value={searchTerm} onChange={handleSearch}
+            sx={{width: {xs: '200px', sm: '340px'}, border: '2px solid white', borderRadius: '10px',
+            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: {xs: '10px', sm: '0px'},
+            '& label': {
+                color: 'white', fontSize: {xs: '1rem', sm: '1.2rem'}
+            },
+            '& label.Mui-focused': {
+                color: 'white',
+            },
+            '& .MuiInputBase-input': {
+                color: 'white',
+            },
+            '& .MuiFilledInput-underline:after': {
+                borderBottom: 'none', // removes underline on focus
+            },
+            '& .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline
+            },
+            '&:hover .MuiFilledInput-underline:before': {
+                borderBottom: 'none', // removes underline on hover
+            },
+            }}
+            />
             <Grid container spacing={0}>
             {
                 isLoading ?
                 <Box sx={{display: 'flex', alignItems: 'center',height: '55vh', mt: '10'}}>
                     <CircularProgress size={'4rem'}/>
                 </Box>:
-                planetsDB.map((planet, index) => (
-                    <Grid xs={12} sm={12} md={6} lg={4} xl={3} sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
-                        <Box key={planet.url} 
+                filteredPlanets.map((planet) => (
+                    <Grid xs={12} key={planet.url}  sx={{display: 'flex', justifyContent: 'center', mt: {xs: '10px', sm: '20px', md: '30px'}}}>
+                        <Box
                         sx={{textAlign: 'center', border: '2px solid white', marginBottom: '50px', padding: '20px', borderRadius: '10px', color: 'white', 
                         backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
-                        backgroundSize: 'cover',
-                        width: {xs: '290px', sm: '450px', md: '400px', lg: '360px',xl: '360px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                        <Typography component="h3" variant='h3' sx={{mb: 2, textTransform: 'capitalize'}}>{planet.name}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Climate: {planet.climate}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Terrain: {planet.terrain}</Typography>
-                        <Typography component="h6" variant='h6' sx={{mb: 2, textTransform: 'capitalize'}}>Population: {planet.population}</Typography>
-                        <Link to={`/planets/${index + 1}`} style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" href={`/planets/${index + 1}`}>View More</Button>
+                        backgroundSize: 'cover', fontWeight: '700',
+                        width: {xs: '270px', sm:'500px', md: '600px', lg: '700px',xl: '800px'}, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                        <Typography component="h2" variant='h2' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '2rem', xl: '3rem'}, fontWeight: '700'}}>{planet.name}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Climate: {planet.climate}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Terrain: {planet.terrain}</Typography>
+                        <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Population: {planet.population}</Typography>
+                        <Link to={`/planets/${planet.id}`} style={{ textDecoration: 'none' }}>
+                            <Button variant="contained" href={`/planets/${planet.id}`}>View More</Button>
                         </Link>
                         </Box>
                     </Grid>

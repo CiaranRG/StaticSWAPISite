@@ -99,10 +99,10 @@ export default function VehiclesPage(){
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
             backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
             backgroundSize: 'cover',
-            fontSize: {xs: '3rem', sm: '4rem', md: '5rem', lg: '6rem'},
+            fontSize: {xs: '3rem', sm: '5rem', md: '6rem'},
             }}>VEHICLES</Typography>
             <TextField id="filled-basic" label="Search Here!" variant="filled" value={searchTerm} onChange={handleSearch}
-            sx={{width: {xs: '200px', sm: '340px', md: '340px', lg:  '340px', xl: '340px'}, border: '2px solid white', borderRadius: '10px',
+            sx={{width: {xs: '200px', sm: '340px'}, border: '2px solid white', borderRadius: '10px',
             backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
             backgroundSize: 'cover', backgroundPosition: 'center', marginBottom: {xs: '10px', sm: '0px'},
             '& label': {
@@ -143,8 +143,6 @@ export default function VehiclesPage(){
                             <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Manufacturer: {vehicle.manufacturer}</Typography>
                             <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Crew: {vehicle.crew}</Typography>
                             <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize', fontSize: { xs: '1rem', xl: '1.5rem'}, fontWeight: '700'}}>Passengers: {vehicle.passengers}</Typography>
-                            {/* THIS IS TEMPORARY I NEED TO PASS THIS THROUGH TO THE SHOW PAGE */}
-                            <Typography component="h5" variant='h5' sx={{mb: 2, textTransform: 'capitalize'}}>ID: {vehicle.id}</Typography>
                             <Link   
                             to={`/vehicles/${vehicle.id}`} 
                             style={{ textDecoration: 'none' }}>
