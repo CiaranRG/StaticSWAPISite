@@ -105,7 +105,7 @@ export default function ShowPage(){
     return(
         <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', flexDirection: 'column', mt: 3}}>
             <Typography component="h1" variant='h1' sx={{mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', borderRadius: '10px', color: 'white', 
-            backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+            backgroundColor: '#112333',
             backgroundSize: 'cover',
             fontSize: {xs: '2rem', sm: '3rem', md: '4rem', lg: '5rem', xl: '6rem'}
             }}>{isLoading ? 'Loading...' : item.name}</Typography>
@@ -118,7 +118,7 @@ export default function ShowPage(){
                 <Box>
                     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: 4, textAlign: 'center', border: '2px solid white', marginBottom: '30px', padding: '20px', 
                     borderRadius: '10px', color: 'white', 
-                    backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
+                    backgroundColor: '#112333',
                     backgroundSize: 'cover',
                     width: {xs: '300px', sm: '500px', md: '800px', lg: '1000px', xl: '1200px'},
                     }}>

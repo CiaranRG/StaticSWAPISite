@@ -40,8 +40,6 @@ export default function Navbar() {
 
   return (
     <AppBar position="static" sx={{ 
-      // backgroundImage: "URL('https://images.unsplash.com/photo-1513628253939-010e64ac66cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1500&q=80')",
-      // backgroundSize: 'cover', backgroundPosition: 'center', 
       backgroundColor: '#112333'
       }}>
       
