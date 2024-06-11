@@ -49,7 +49,7 @@ export default function ShowPage(){
     const location = useLocation()
     let backButton = ''
     // Setting a url variable and then changing it based on what page we are trying to show
-    let urlPath: string = ''
+    let urlPath = ''
     if (location.pathname.includes('vehicles')) {
         urlPath = `https://swapi.dev/api/vehicles/${vehicleId}`
         backButton = 'vehicles'

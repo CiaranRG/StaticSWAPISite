@@ -52,7 +52,7 @@ export default function StarshipsPage(){
             let allData: Starship[] = []
             try {
                 while (nextURL){
-                    const response = await fetch(nextURL, { signal })
+                    const response: Response = await fetch(nextURL, { signal })
                     const result = await response.json();
                     // If the response from the server was not between 200-299 this is error is thr
                     if (!response.ok){

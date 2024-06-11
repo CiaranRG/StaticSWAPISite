@@ -23,7 +23,7 @@ type Character = {
 export default function CharactersPage(){
     const [charactersDB, setCharactersDB] = useState<Character[]>([])
     const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([])
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState<string>('')
     const [isLoading, setIsloading] = useState<boolean>(true)
     const navigate = useNavigate()
     useEffect(()=>{
@@ -47,7 +47,7 @@ export default function CharactersPage(){
             let allData: Character[] = []
             try {
                 while (nextURL){
-                    const response = await fetch(nextURL, {signal})
+                    const response: Response = await fetch(nextURL, {signal})
                     const result = await response.json();
                     // If the response from the server was not between 200-299 this is error is thr
                     if (!response.ok){
