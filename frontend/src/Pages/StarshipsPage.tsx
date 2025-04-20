@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Box from '@mui/material/Box';
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +50,7 @@ export default function StarshipsPage(){
             return splitUrl[splitUrl.length - 2];
         }
         const fetchData = async () => {
-            let nextURL: string | null =  'https://swapi.dev/api/starships'
+            let nextURL: string | null =  'https://swapi.tech/api/starships'
             let allData: Starship[] = []
             try {
                 while (nextURL){

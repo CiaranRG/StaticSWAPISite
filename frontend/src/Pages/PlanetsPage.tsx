@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +42,7 @@ export default function PlanetsPage(){
             return splitUrl[splitUrl.length - 2];
         }
         const fetchData = async () => {
-            let nextURL: string | null =  'https://swapi.dev/api/planets'
+            let nextURL: string | null =  'https://swapi.tech/api/planets'
             let allData: Planet[] = []
             try {
                 while (nextURL){

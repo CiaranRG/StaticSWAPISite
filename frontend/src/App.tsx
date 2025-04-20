@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import './App.scss'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 // Importing Utility

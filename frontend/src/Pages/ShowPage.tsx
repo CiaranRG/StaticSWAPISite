@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
@@ -51,16 +53,16 @@ export default function ShowPage(){
     // Setting a url variable and then changing it based on what page we are trying to show
     let urlPath = ''
     if (location.pathname.includes('vehicles')) {
-        urlPath = `https://swapi.dev/api/vehicles/${vehicleId}`
+        urlPath = `https://swapi.tech/api/vehicles/${vehicleId}`
         backButton = 'vehicles'
     } else if (location.pathname.includes('character')) {
-        urlPath = `https://swapi.dev/api/people/${characterId}`
+        urlPath = `https://swapi.tech/api/people/${characterId}`
         backButton = 'characters'
     } else if (location.pathname.includes('planets')) {
-        urlPath = `https://swapi.dev/api/planets/${planetId}`
+        urlPath = `https://swapi.tech/api/planets/${planetId}`
         backButton = 'planets'
     } else if (location.pathname.includes('starships')) {
-        urlPath = `https://swapi.dev/api/starships/${starshipId}`
+        urlPath = `https://swapi.tech/api/starships/${starshipId}`
         backButton = 'starships'
     }
     // Used to change the title to either be loading or the name of the item

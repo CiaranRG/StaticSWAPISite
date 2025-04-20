@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Box from '@mui/material/Box';
 import { useLocation } from 'react-router-dom';
 

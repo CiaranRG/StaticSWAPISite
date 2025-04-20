@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import Box from '@mui/material/Box';
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +45,7 @@ export default function CharactersPage(){
         }
         const fetchData = async () => {
             // Letting the variable be of type string or null
-            let nextURL: string | null = 'https://swapi.dev/api/people'
+            let nextURL: string | null = 'https://swapi.tech/api/people'
             let allData: Character[] = []
             try {
                 while (nextURL){
